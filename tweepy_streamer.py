@@ -5,6 +5,9 @@ from tweepy import OAuthHandler
 from tweepy import Stream
 
 import twitter_credentials
+import numpy as np 
+import pandas as pd
+
 
 # # # # TWITTER CLIENT # # # #
 class TwitterClient():
@@ -13,6 +16,9 @@ class TwitterClient():
         self.twitter_client = API(self.auth)
 
         self.twitter_user = twitter_user
+
+    def get_twitter_client_api(self):
+        return self.twitter_client
 
     def get_user_timeline_tweets(self, num_tweets):
         tweets = []
@@ -81,14 +87,32 @@ class TwitterListener(StreamListener):
             return False
         print(status)
 
+class TweetAnalyzer():
+    '''
+    Functionality for analyzing and categorizing content from tweets.
+    '''
+    def tweets_to_data_frame(self, tweets):
+        df = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
+        return df
+
 if __name__ == "__main__":
+
+    twitter_client = TwitterClient()
+    tweet_analyzer = TweetAnalyzer()
+    
+    api = twitter_client.get_twitter_client_api()
+
+    tweets = api.user_timeline(screen_name = 'Michel_Atieno', count = 10)
+    
+    df = tweet_analyzer.tweets_to_data_frame(tweets)
+    print(df.head(10))
      
-     hash_tag_list = ['kenya']
-     fetched_tweets_filename = "tweets.json"
+    #  hash_tag_list = ['kenya']
+    #  fetched_tweets_filename = "tweets.json"
 
-     twitter_client = TwitterClient('Michel_Atieno')
-     print(twitter_client.get_user_timeline_tweets(1))
+    #  twitter_client = TwitterClient('Michel_Atieno')
+    #  print(twitter_client.get_user_timeline_tweets(1))
 
-    #  twitter_streamer = TwitterStreamer()
-    #  twitter_streamer.stream_tweets(fetched_tweets_filename, hash_tag_list)
+    # #  twitter_streamer = TwitterStreamer()
+    # #  twitter_streamer.stream_tweets(fetched_tweets_filename, hash_tag_list)
    
