@@ -104,8 +104,9 @@ if __name__ == "__main__":
 
     tweets = api.user_timeline(screen_name = 'Michel_Atieno', count = 10)
     
-    df = tweet_analyzer.tweets_to_data_frame(tweets)
-    print(df.head(10))
+    print(dir(tweets[0]))
+    # df = tweet_analyzer.tweets_to_data_frame(tweets)
+    # print(df.head(10))
      
     #  hash_tag_list = ['kenya']
     #  fetched_tweets_filename = "tweets.json"
