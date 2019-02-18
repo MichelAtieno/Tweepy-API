@@ -20,6 +20,17 @@ class TwitterClient():
             tweets.append(tweet)
         return tweets
 
+    def get_friend_list(self, num_friends):
+        friend_list = []
+        for friend in Cursor(self.twitter_client.friends, id = self.twitter_user).items(num_friends):
+            friend_list.append(friend)
+        return friend_list
+
+    def get_home_timeline_tweets(self, num_tweets):
+        home_timeline_tweets = []
+        for tweet in Cursor(self.twitter_client.home_timeline, id = self.twitter_user).items(num_tweets):
+            home_timeline_tweets.append(tweet)
+        return home_timeline_tweets
 
 
 # # # # TWITTER AUTHENTICATOR # # # #
@@ -75,7 +86,7 @@ if __name__ == "__main__":
      hash_tag_list = ['kenya']
      fetched_tweets_filename = "tweets.json"
 
-     twitter_client = TwitterClient('pycon')
+     twitter_client = TwitterClient('Michel_Atieno')
      print(twitter_client.get_user_timeline_tweets(1))
 
     #  twitter_streamer = TwitterStreamer()
