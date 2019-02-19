@@ -93,6 +93,11 @@ class TweetAnalyzer():
     '''
     def tweets_to_data_frame(self, tweets):
         df = pd.DataFrame(data=[tweet.text for tweet in tweets], columns=['Tweets'])
+        
+        df['id'] = np.array([tweet.id for tweet in tweets])
+        df['id'] = np.array([tweet.id for tweet in tweets])
+        
+        
         return df
 
 if __name__ == "__main__":
@@ -104,9 +109,11 @@ if __name__ == "__main__":
 
     tweets = api.user_timeline(screen_name = 'Michel_Atieno', count = 10)
     
-    print(dir(tweets[0]))
-    # df = tweet_analyzer.tweets_to_data_frame(tweets)
-    # print(df.head(10))
+
+    # print(dir(tweets[0]))
+    # print(tweets[8].retweet_count)
+    df = tweet_analyzer.tweets_to_data_frame(tweets)
+    print(df.head(10))
      
     #  hash_tag_list = ['kenya']
     #  fetched_tweets_filename = "tweets.json"
