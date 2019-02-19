@@ -7,6 +7,7 @@ from tweepy import Stream
 import twitter_credentials
 import numpy as np 
 import pandas as pd
+import matplotlib.pyplot as plt
 
 
 # # # # TWITTER CLIENT # # # #
@@ -99,7 +100,7 @@ class TweetAnalyzer():
         df['date'] = np.array([tweet.created_at for tweet in tweets])
         df['source'] = np.array([tweet.source for tweet in tweets])
         df['likes'] = np.array([tweet.favorite_count for tweet in tweets])
-        df['retweet'] = np.array([tweet.retweet_count for tweet in tweets])
+        df['retweets'] = np.array([tweet.retweet_count for tweet in tweets])
         
         
         return df
@@ -113,11 +114,29 @@ if __name__ == "__main__":
 
     tweets = api.user_timeline(screen_name = 'realDonaldTrump', count = 10)
     
-
-    print(dir(tweets[0]))
-    # print(tweets[8].retweet_count)
     df = tweet_analyzer.tweets_to_data_frame(tweets)
     print(df.head(10))
+    # Get average length over all tweets
+    # print(np.mean(df['len']))
+
+    # Get the number of likes for the most liked tweet
+    print(np.max(df['likes']))
+
+    #Get the number of retweets for most retweeted tweet
+    # print(np.max(df['retweets']))
+
+    # Time Series
+    # time_likes = pd.Series(data=df['likes'].values, index=df['date'])
+    # time_likes.plot(figsize=(16, 4), color='r')
+    # plt.show()
+
+    time_retweets = pd.Series(data=df['retweets'].values, index=df['date'])
+    time_retweets.plot(figsize=(16, 4), color='r')
+    plt.show()
+    # print(dir(tweets[0]))
+    # print(tweets[8].retweet_count)
+    
+    
      
     #  hash_tag_list = ['kenya']
     #  fetched_tweets_filename = "tweets.json"
